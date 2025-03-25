@@ -1,0 +1,18 @@
+{
+  "name": "customnwjsforc2",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MPL-2.0",
+  "author": "KiCK",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "cli-progress": "^3.12.0",
+    "node-downloader-helper": "^2.1.9"
+  }
+}
