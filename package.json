@@ -8,15 +8,11 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "pkg main.js -t node18-win-x64 -C",
     "start": "node ."
   },
   "dependencies": {
     "adm-zip": "^0.5.16",
     "cli-progress": "^3.12.0",
     "node-downloader-helper": "^2.1.9"
-  },
-  "devDependencies": {
-    "@yao-pkg/pkg": "^6.3.2"
   }
 }
