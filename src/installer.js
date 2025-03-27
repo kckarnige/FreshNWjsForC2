@@ -22,10 +22,10 @@ function extractZip(zipPath, outputFolder) {
     });
 }
 fs.readFile(path.join(filePath, 'currentVersion'), (err, latestVersion) => {
-    console.log('Unzipping...');
+    console.log('Installing...');
     checkDirs.forEach(dir => {
         if (dir === "win64") {
-            console.log('Unzipping for Windows 64-bit...');
+            console.log('Installing for Windows 64-bit...');
             extractZip(path.join(__dirname, "temp", "nwjs-v" + latestVersion + "-win-x64.zip"), path.join(filePath))
                 .then(() => {
                     fs.rmSync(path.join(__dirname, "temp", "nwjs-v" + latestVersion + "-win-x64.zip"), { recursive: true, force: true })
@@ -36,7 +36,7 @@ fs.readFile(path.join(filePath, 'currentVersion'), (err, latestVersion) => {
                     console.error('Error:', err);
                 });
         } else if (dir === "win32") {
-            console.log('Unzipping for Windows 32-bit...');
+            console.log('Installing for Windows 32-bit...');
             extractZip(path.join(__dirname, "temp", "nwjs-v" + latestVersion + "-win-ia32.zip"), path.join(filePath))
                 .then(() => {
                     fs.rmSync(path.join(__dirname, "temp", "nwjs-v" + latestVersion + "-win-ia32.zip"), { recursive: true, force: true })
@@ -47,7 +47,7 @@ fs.readFile(path.join(filePath, 'currentVersion'), (err, latestVersion) => {
                     console.error('Error:', err);
                 });
         } else if (dir === "linux64") {
-            console.log('Unzipping for Linux 64-bit...');
+            console.log('Installing for Linux 64-bit...');
             tar.x({
                 file: path.join(__dirname, "temp", "nwjs-v" + latestVersion + "-linux-x64.tar.gz"),
                 C: path.join(filePath)
@@ -61,7 +61,7 @@ fs.readFile(path.join(filePath, 'currentVersion'), (err, latestVersion) => {
                     console.error('Error:', err);
                 });
         } else if (dir === "linux32") {
-            console.log('Unzipping for Linux 32-bit...');
+            console.log('Installing for Linux 32-bit...');
             tar.x({
                 file: path.join(__dirname, "temp", "nwjs-v" + latestVersion + "-linux-ia32.tar.gz"),
                 C: path.join(filePath)
@@ -75,7 +75,7 @@ fs.readFile(path.join(filePath, 'currentVersion'), (err, latestVersion) => {
                     console.error('Error:', err);
                 });
         } else if (dir === "osx64") {
-            console.log('Unzipping for MacOS X 64-bit...');
+            console.log('Installing for MacOS X 64-bit...');
             extractZip(path.join(__dirname, "temp", "nwjs-v" + latestVersion + "-osx-x64.zip"), path.join(filePath))
                 .then(() => {
                     fs.rmSync(path.join(__dirname, "temp", "nwjs-v" + latestVersion + "-osx-x64.zip"), { recursive: true, force: true })
