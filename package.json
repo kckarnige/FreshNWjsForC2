@@ -1,18 +1,25 @@
 {
   "name": "customnwjsforc2",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "license": "MPL-2.0",
   "author": "KiCK",
   "type": "commonjs",
-  "main": "main.js",
+  "main": "src/updateChecker.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ."
+    "quickStart": "pnpm i && pnpm construct",
+    "start": "pnpm construct",
+    "start:skipUC": "pnpm construct:skipUC",
+    "construct": "node src/updateChecker.js && node src/downloader.js && node src/installer.js",
+    "construct:skipUC": "node src/downloader.js && node src/installer.js",
+    "deconstruct": "node src/uninstaller.js",
+    "downloader": "node src/downloader.js"
   },
   "dependencies": {
     "adm-zip": "^0.5.16",
     "cli-progress": "^3.12.0",
-    "node-downloader-helper": "^2.1.9"
+    "node-downloader-helper": "^2.1.9",
+    "tar": "^7.4.3"
   }
 }
