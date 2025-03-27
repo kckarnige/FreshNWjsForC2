@@ -19,3 +19,5 @@ My own modern replacement for "NW.js for Construct 2".
 - Install dependencies and run `pnpm start` and let it do it's thing
 
 - Enjoy exporting your C2 games with the latest version of NWjs!
+      
+<sub>Not affiliated with Scirra Ltd</sub>
