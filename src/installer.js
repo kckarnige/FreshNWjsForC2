@@ -8,7 +8,7 @@ console.log("Running...")
 
 const programFilesPath = process.env.ProgramFiles;
 const filePath = path.join(programFilesPath, 'NWjsForC2');
-const checkDirs = ['win64', 'win32', 'linux64', 'linux32', 'osx64'];
+const checkDirs = ['win64', 'win32', 'linux64', 'linux32', 'osx64', ''];
 
 function extractZip(zipPath, outputFolder) {
     return new Promise((resolve, reject) => {
@@ -86,6 +86,9 @@ fs.readFile(path.join(filePath, 'currentVersion'), (err, latestVersion) => {
                 .catch(err => {
                     console.error('Error:', err);
                 });
+        } else {
+            console.clear();
+            console.log('Fresh NW install complete! Enjoy the latest version of NW.js, v'+latestVersion+'!\nMake sure to check back for updates every now and then!');
         }
     })
 });

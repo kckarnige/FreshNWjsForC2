@@ -1,23 +1,32 @@
-![icon as scuffed as the program](./icon.png)
+![icon as scuffed as the program](./icon_large.png)
 
-# Neo NW for Construct 2
-My own modern replacement for "NW.js for Construct 2".
+# Fresh NW for Construct 2 (Formerly Neo NW)
+My own modern replacement for "NW.js for Construct 2", made to last far beyond 2025.
 
-*Icon uses the Construct 2 logo, [this Roblox hat](https://www.roblox.com/catalog/122415713240099/Sonic-Ova-Movie-Iconic-Pink-Hat), and [this cane from the Home Depot website](https://www.homedepot.com/p/Brazos-Walking-Sticks-37-in-Twisted-Walnut-Walking-Cane-502-3000-0281/205856200)*
+
 
 > [!NOTE]
-> - Make sure to run this with an elevated terminal.
+> - Due to how Construct 2 handles NW.js support, files need to be in a specific directory: `C:\Program Files\NWjsForC2`. This is why it is required you use an elevated terminal to run this, or else it may not function as intended.
 >
-> - Downloads may be slower than expected due to the single-threaded nature of Node.js. I'm unsure how to setup multi-threading properly, specifically for downloads, so if you know how please feel free to create a pull-request!
+> - Downloads may be slower than desired due to the single-threaded nature of Node.js. I'm actively figuring out how to get multi-threaded downloads functioning, though I'm not very knowledgable and the solution might be messy, so if you know how to get this working, please feel free to create a pull-request!
 
 ## Usage
 
-- Make sure you have Contruct 2 installed, as well as Node.js and PNPM (got questions? google)
+- Make sure you have [Node.js](https://nodejs.org) and [pnpm](https://pnpm.io) installed.
 
-- Clone this repository and open it in an admin terminal
+- Clone this repository and open it's directory into an elevated terminal.
 
-- Install dependencies and run `pnpm start` and let it do it's thing
+- Run `pnpm i` and then either `pnpm start` or `pnpm construct` and let it do it's thing.
 
-- Enjoy exporting your C2 games with the latest version of NWjs!
+- Once Fresh NW says it's done installing, you should be able to export your Construct 2 games with the latest and greatest of NW.js!
       
-<sub>Not affiliated with Scirra Ltd</sub>
+## Troubleshooting
+
+If Construct 2 is telling you NW.js support is not installed, or Fresh NW isn't recognising any new NWjs hotfix, you can skip the update check and force an install by running either `pnpm start:force` or `pnpm construct:force`.
+
+To uninstall, run `pnpm deconstruct`.
+
+----
+
+<sub><i>Neo NW icon uses the Construct 2 logo, <a href="https://www.roblox.com/catalog/122415713240099/Sonic-Ova-Movie-Iconic-Pink-Hat">this Roblox hat</a>, and <a href="https://www.homedepot.com/p/Brazos-Walking-Sticks-37-in-Twisted-Walnut-Walking-Cane-502-3000-0281/205856200">this cane from the Home Depot website</a>.</i></sub>       
+<sub><i>Not affiliated with Scirra Ltd.</i></sub>

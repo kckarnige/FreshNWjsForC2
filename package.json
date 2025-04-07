@@ -1,6 +1,6 @@
 {
-  "name": "customnwjsforc2",
-  "version": "2.0.1",
+  "name": "fresh-nw",
+  "version": "2.0.2",
   "description": "",
   "license": "MPL-2.0",
   "author": "KiCK",
@@ -10,9 +10,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "quickStart": "pnpm i && pnpm construct",
     "start": "pnpm construct",
-    "start:skipUC": "pnpm construct:skipUC",
+    "start:force": "pnpm construct:force",
     "construct": "node src/updateChecker.js && node src/downloader.js && node src/installer.js",
-    "construct:skipUC": "node src/downloader.js && node src/installer.js",
+    "construct:force": "node src/downloader.js && node src/installer.js",
     "deconstruct": "node src/uninstaller.js",
     "downloader": "node src/downloader.js"
   },
