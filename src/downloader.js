@@ -1,10 +1,11 @@
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const config = require("./config.json")
 const { DownloaderHelper } = require('node-downloader-helper');
 const cliProgress = require('cli-progress');
 
-console.log("Running...");
+console.log("Starting download process...");
 
 if (fs.existsSync(path.join(__dirname, "temp"))) {
     fs.rmSync(path.join(__dirname, "temp"), { recursive: true, force: true })
@@ -26,26 +27,31 @@ https.get('https://registry.npmjs.com/nw', (res) => {
     let data = '';
     res.on('data', chunk => data += chunk);
     res.on('end', async () => {
-        const latestVersion = JSON.parse(data)['dist-tags'].latest;
-        fs.writeFileSync(path.join(filePath, 'currentVersion'), latestVersion);
+        var installVersion;
+        if (config.preferedVersion != "latest") {
+            installVersion = config.preferedVersion
+        } else {
+            installVersion = JSON.parse(data)['dist-tags'].latest;
+        }
+        fs.writeFileSync(path.join(filePath, 'installedversion.freshnw'), installVersion);
         if (!fs.existsSync(path.join(__dirname, "temp"))) {
             fs.mkdirSync(path.join(__dirname, "temp"), { recursive: true });
         }
 
         // URLs for different platforms
         const urls = {
-            win64: `https://dl.nwjs.io/v${latestVersion}/nwjs-v${latestVersion}-win-x64.zip`,
-            win32: `https://dl.nwjs.io/v${latestVersion}/nwjs-v${latestVersion}-win-ia32.zip`,
-            linux64: `https://dl.nwjs.io/v${latestVersion}/nwjs-v${latestVersion}-linux-x64.tar.gz`,
-            linux32: `https://dl.nwjs.io/v${latestVersion}/nwjs-v${latestVersion}-linux-ia32.tar.gz`,
-            osx64: `https://dl.nwjs.io/v${latestVersion}/nwjs-v${latestVersion}-osx-x64.zip`
+            win64: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-win-x64.zip`,
+            win32: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-win-ia32.zip`,
+            linux64: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-linux-x64.tar.gz`,
+            linux32: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-linux-ia32.tar.gz`,
+            osx64: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-osx-x64.zip`
         };
 
         // Remove old directories
         checkDirs.forEach(dir => fs.rmSync(path.join(filePath, dir), { recursive: true, force: true }));
 
         // Start all downloads in parallel using Promise.all
-        await Promise.all(checkDirs.map(dir => downloadFile(urls[dir], dir, latestVersion)));
+        await Promise.all(checkDirs.map(dir => downloadFile(urls[dir], dir, installVersion)));
 
         // Stop progress bar and exit
         progressBar.stop();
@@ -56,8 +62,8 @@ https.get('https://registry.npmjs.com/nw', (res) => {
 }).on('error', console.error);
 
 // Download function (returns a promise)
-function downloadFile(url, type, latestVersion) {
-    return new Promise((resolve, reject) => {
+function downloadFile(url, type, installVersion) {
+    return new Promise((resolve) => {
         if (!url) return resolve(); // Skip if URL is missing
 
         let progress = progressBar.create(100, 0);
@@ -82,21 +88,21 @@ function downloadFile(url, type, latestVersion) {
 
         dl.on('start', () => {
             console.clear();
-            console.log('Downloading NW.js version:', latestVersion);
+            console.log('Downloading NW.js version:', installVersion);
             if (type == "win64") {
-                progress.start(100, 0, { speed: "0", downloaded: "0", total: "0", nwVersion: latestVersion, platformName: "Windows 64-bit" });
+                progress.start(100, 0, { speed: "0", downloaded: "0", total: "0", nwVersion: installVersion, platformName: "Windows 64-bit" });
             } else
                 if (type == "win32") {
-                    progress.start(100, 0, { speed: "0", downloaded: "0", total: "0", nwVersion: latestVersion, platformName: "Windows 32-bit" });
+                    progress.start(100, 0, { speed: "0", downloaded: "0", total: "0", nwVersion: installVersion, platformName: "Windows 32-bit" });
                 } else
                     if (type == "linux64") {
-                        progress.start(100, 0, { speed: "0", downloaded: "0", total: "0", nwVersion: latestVersion, platformName: " Linux 64-bit " });
+                        progress.start(100, 0, { speed: "0", downloaded: "0", total: "0", nwVersion: installVersion, platformName: " Linux 64-bit " });
                     } else
                         if (type == "linux32") {
-                            progress.start(100, 0, { speed: "0", downloaded: "0", total: "0", nwVersion: latestVersion, platformName: " Linux 32-bit " });
+                            progress.start(100, 0, { speed: "0", downloaded: "0", total: "0", nwVersion: installVersion, platformName: " Linux 32-bit " });
                         } else
                             if (type == "osx64") {
-                                progress.start(100, 0, { speed: "0", downloaded: "0", total: "0", nwVersion: latestVersion, platformName: "MacOS X 64-bit" });
+                                progress.start(100, 0, { speed: "0", downloaded: "0", total: "0", nwVersion: installVersion, platformName: "MacOS X 64-bit" });
                             }
         });
 

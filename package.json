@@ -1,6 +1,6 @@
 {
   "name": "fresh-nw",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "",
   "license": "MPL-2.0",
   "author": "KiCK",
@@ -14,12 +14,18 @@
     "construct": "node src/updateChecker.js && node src/downloader.js && node src/installer.js",
     "construct:force": "node src/downloader.js && node src/installer.js",
     "deconstruct": "node src/uninstaller.js",
-    "downloader": "node src/downloader.js"
+    "reconstruct": "pnpm deconstruct && pnpm construct",
+    "lint": "pnpm eslint"
   },
   "dependencies": {
     "adm-zip": "^0.5.16",
     "cli-progress": "^3.12.0",
     "node-downloader-helper": "^2.1.9",
     "tar": "^7.4.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "eslint": "^9.24.0",
+    "globals": "^16.0.0"
   }
 }
