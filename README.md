@@ -6,7 +6,7 @@ My own modern replacement for "NW.js for Construct 2", made to last far beyond 2
 
 
 > [!NOTE]
-> - Due to how Construct 2 handles NW.js support, files need to be placed in a specific directory: `C:\Program Files\NWjsForC2`. This is why it is a requirement that you use an elevated terminal or else this may not function as intended, or at all.
+> Due to how Construct 2 handles NW.js support, files need to be placed in a specific directory: `C:\Program Files\NWjsForC2`. This is why it is a requirement that you use an elevated terminal or else this may not function as intended, or at all.
 
 ## Usage
 
