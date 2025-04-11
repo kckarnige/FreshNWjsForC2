@@ -1,4 +1,4 @@
-![icon as scuffed as the program](./icon_rm-banner.png)
+![icon as scuffed as the program](./icon_banner_readme.png)
 
 # Fresh NW for Construct 2 (Formerly Neo NW)
 My own modern replacement for "NW.js for Construct 2", made to last far beyond 2025.
