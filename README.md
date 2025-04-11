@@ -7,8 +7,6 @@ My own modern replacement for "NW.js for Construct 2", made to last far beyond 2
 
 > [!NOTE]
 > - Due to how Construct 2 handles NW.js support, files need to be placed in a specific directory: `C:\Program Files\NWjsForC2`. This is why it is a requirement that you use an elevated terminal or else this may not function as intended, or at all.
->
-> - Downloads may be slower than desired due to the single-threaded nature of Node.js. I'm actively figuring out how to get multi-threaded downloads functioning, though I'm not very knowledgable and the solution might be messy, so if you know how to get this working, please feel free to create a pull-request!
 
 ## Usage
 
