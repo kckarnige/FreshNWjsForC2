@@ -1,4 +1,5 @@
 {
     "preferedVersion": "latest",
-    "deleteTempDirAfterInstall": true
+    "deleteTempDirAfterInstall": true,
+    "localInstall": false
 }

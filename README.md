@@ -4,9 +4,13 @@
 My own modern replacement for "NW.js for Construct 2", made to last far beyond 2025.
 
 
-
 > [!NOTE]
-> Due to how Construct 2 handles NW.js support, files need to be placed in a specific directory: `C:\Program Files\NWjsForC2`. This is why it is a requirement that you use an elevated terminal or else this may not function as intended, or at all.
+>
+> Due to how Construct 2 handles NW.js support, files need to be placed in a specific directory: `C:\Program Files\NWjsForC2`. This is why it is a requirement that you use an elevated terminal or else this may not function as intended, or at all. I recommend either installing something like [gsudo](https://github.com/gerardog/gsudo), or using the [new sudo command](https://learn.microsoft.com/en-us/windows/sudo/) introduced in Windows 11 24H2, if you plan to use this for the long haul. *You do not need an elevated terminal `localInstall` is enabled.*
+>
+> ## On running under Wine
+>
+> **As Construct 2 only officially supports Windows, this tool will be made with that in mind above all else.** If you're by any chance using Construct 2 under [Wine](https://en.wikipedia.org/wiki/Wine_(software)), [Proton](https://en.wikipedia.org/wiki/Proton_(software)), or something of the sort, don't be surprised if Fresh NW doesn't function as intended, though I don't believe there should much issue, just make sure to configure Wine accordingly. That being said, support will NOT be provided for alternative setups, especially if a lot of jank is involved.
 
 ## Usage
 
@@ -37,6 +41,25 @@ My own modern replacement for "NW.js for Construct 2", made to last far beyond 2
 >
 > **If all else fails, consider investing in a new system!**
 >
+
+
+## AI Politics
+
+### This was made with assistance from ChatGPT.
+
+(No, I'm not an AI or cryto bro. I hate crypto, AI however...)
+
+I have a strong stance against AI and the ethics surrounding it's use, and I believe human input is what makes truly remarkable things, **however**, I also believe AI is a valuable resource if used sparingly and responsibly.
+
+This project is a good example, as the downloader was created with AI, and molded into something entirely new, with some help with said AI to help understand how the downloader actually works and how to integrate a progress bar to keep track of downloads.
+
+I intend to use AI as a tool to help me do the homework, not do it for me. This isn't some college course I want done and over with, this is a passion project I want fully realised with my heart and soul.
+
+To put it bluntly, fuck AI "art".
+
+True art, is made by the human hand on any blank canvas, not by an AI who's told to mash a bunch of stolen images together to make...[whatever this is](https://kckarnige.github.io/dl/i_hate_ai_slop.mp4).
+
+Get your hands dirty! Learn and make something great!
 
 ----
 
