@@ -28,9 +28,10 @@ function extractZip(zipPath, outputFolder) {
 }
 
 console.clear();
-console.log(color.yellow("Will be installed to: "+filePath()))
+console.log(color.yellow("Will be installed to: " + filePath()))
 console.log(color.magenta(`Starting install process...\n`))
 
+// Read the installed version
 fs.readFile(path.join(filePath(), "installedversion.freshnw"), (err, installVersionRaw) => {
     if (err) return console.log(color.red("Error reading version file:"), err);
     const installVersion = installVersionRaw.toString().trim();
@@ -38,21 +39,21 @@ fs.readFile(path.join(filePath(), "installedversion.freshnw"), (err, installVers
 
     const installPromises = checkDirs.map(dir => {
         if (dir === "win64") {
-            console.log("Installing for "+color.cyan("Windows 64-bit")+"...");
+            console.log("Installing for " + color.cyan("Windows 64-bit") + "...");
             return extractZip(path.join(__dirname, "temp", `nwjs-v${installVersion}-win-x64.zip`), filePath())
                 .then(() => {
                     installCount++;
                     fs.renameSync(path.join(filePath(), `nwjs-v${installVersion}-win-x64`), path.join(filePath(), dir));
                 });
         } else if (dir === "win32") {
-            console.log("Installing for "+color.cyan("Windows 32-bit")+"...");
+            console.log("Installing for " + color.cyan("Windows 32-bit") + "...");
             return extractZip(path.join(__dirname, "temp", `nwjs-v${installVersion}-win-ia32.zip`), filePath())
                 .then(() => {
                     installCount++;
                     fs.renameSync(path.join(filePath(), `nwjs-v${installVersion}-win-ia32`), path.join(filePath(), dir));
                 });
         } else if (dir === "linux64") {
-            console.log("Installing for "+color.yellow("Linux 64-bit")+"...");
+            console.log("Installing for " + color.yellow("Linux 64-bit") + "...");
             return tar.x({
                 file: path.join(__dirname, "temp", `nwjs-v${installVersion}-linux-x64.tar.gz`),
                 C: filePath()
@@ -62,7 +63,7 @@ fs.readFile(path.join(filePath(), "installedversion.freshnw"), (err, installVers
                     fs.renameSync(path.join(filePath(), `nwjs-v${installVersion}-linux-x64`), path.join(filePath(), dir));
                 });
         } else if (dir === "linux32") {
-            console.log("Installing for "+color.yellow("Linux 32-bit")+"...");
+            console.log("Installing for " + color.yellow("Linux 32-bit") + "...");
             return tar.x({
                 file: path.join(__dirname, "temp", `nwjs-v${installVersion}-linux-ia32.tar.gz`),
                 C: filePath()
@@ -72,7 +73,7 @@ fs.readFile(path.join(filePath(), "installedversion.freshnw"), (err, installVers
                     fs.renameSync(path.join(filePath(), `nwjs-v${installVersion}-linux-ia32`), path.join(filePath(), dir));
                 });
         } else if (dir === "osx64") {
-            console.log("Installing for "+color.magenta("MacOS X 64-bit")+"...");
+            console.log("Installing for " + color.magenta("MacOS X 64-bit") + "...");
             return extractZip(path.join(__dirname, "temp", `nwjs-v${installVersion}-osx-x64.zip`), filePath())
                 .then(() => {
                     installCount++;

@@ -31,11 +31,13 @@ console.clear();
 console.log(color.yellow("Will be installed to: " + filePath()))
 console.log(color.magenta("Starting download process..."))
 
-// Fetch latest version from npm
+// Fetch latest version NW.js from npm's API
 https.get("https://registry.npmjs.com/nw", (res) => {
     let data = "";
     res.on("data", chunk => data += chunk);
     res.on("end", async () => {
+
+        // Get the version that is trying to be installed
         var installVersion;
         if (config.preferedVersion != "latest") {
             installVersion = config.preferedVersion
@@ -43,16 +45,13 @@ https.get("https://registry.npmjs.com/nw", (res) => {
             installVersion = JSON.parse(data)["dist-tags"].latest;
         }
 
-
-        if (!fs.existsSync(filePath())) {
-            fs.mkdirSync(filePath(), { recursive: true });
-            fs.writeFileSync(path.join(filePath(), "installedversion.freshnw"), installVersion);
-        } else {
-            fs.writeFileSync(path.join(filePath(), "installedversion.freshnw"), installVersion);
-        }
+        // If the 'temp' directory exists, delete it
         if (!fs.existsSync(path.join(__dirname, "temp"))) {
             fs.mkdirSync(path.join(__dirname, "temp"), { recursive: true });
-        }
+        }        
+
+        // Remove directories if they already exist
+        checkDirs.forEach(dir => fs.rmSync(path.join(filePath(), dir), { recursive: true, force: true }));
 
         // URLs for different platforms
         const urls = {
@@ -63,30 +62,51 @@ https.get("https://registry.npmjs.com/nw", (res) => {
             osx64: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-osx-x64.zip`
         };
 
-        // Remove old directories
-        checkDirs.forEach(dir => fs.rmSync(path.join(filePath(), dir), { recursive: true, force: true }));
+        // Create progress bars for each download
+        console.log(color.magenta(`Downloading NW.js version: ${installVersion}\n`));
+        const progressBars = {};
+        for (var dir of checkDirs) {
+            let label;
+            switch (dir) {
+                case "win64": label = color.cyan("Windows 64-bit"); break;
+                case "win32": label = color.cyan("Windows 32-bit"); break;
+                case "linux64": label = color.yellow(" Linux 64-bit "); break;
+                case "linux32": label = color.yellow(" Linux 32-bit "); break;
+                case "osx64": label = color.magenta("MacOS X 64-bit"); break;
+            }
+            progressBars[dir] = progressBar.create(100, 0, { speed: "Wait...", platformName: label });
+        }
 
-        // Start all downloads in parallel using Promise.all
-        await Promise.all(checkDirs.map(dir => downloadFile(urls[dir], dir, installVersion)));
+        // Start each download after the previous is completed
+        for (var dir of checkDirs) {
+            await downloadFile(urls[dir], dir, installVersion, progressBars[dir]);
+        }
 
-        // When all downloads are compeleted, exit
+        // When all downloads are completed, let the user know
         console.log(color.green("\nAll files downloaded!"));
-        setTimeout(()=>{process.exit(0)}, 500);        
+    
+        // Write the version that was installed to a file
+        if (!fs.existsSync(filePath())) {
+            fs.mkdirSync(filePath(), { recursive: true });
+            fs.writeFileSync(path.join(filePath(), "installedversion.freshnw"), installVersion);
+        } else {
+            fs.writeFileSync(path.join(filePath(), "installedversion.freshnw"), installVersion);
+        }
+        
+        // Then exit
+        setTimeout(() => { process.exit(0) }, 500);
     });
 }).on("error", console.error);
 
+// Download function
 var completedDLs = 0;
-// Download function (returns a promise)
-function downloadFile(url, type, installVersion) {
+function downloadFile(url, type, progress) {
     return new Promise((resolve) => {
-        if (!url) return resolve(); // Skip if URL is missing
-
-        let progress = progressBar.create(100, 0);
         const dl = new DownloaderHelper(url, path.join(__dirname, "temp"));
 
         dl.on("progress", (stats) => {
             const percentage = Math.round(stats.progress);
-            const speed = (((stats.speed / 1024) / 1000).toFixed(2)).toString()+" MB/s";
+            const speed = (((stats.speed / 1024) / 1000).toFixed(2)).toString() + " MB/s";
             progress.update(percentage, { speed });
         });
 
@@ -109,22 +129,7 @@ function downloadFile(url, type, installVersion) {
         });
 
         dl.on("start", () => {
-            if (type == "win64") {
-                progress.start(100, 0, { speed: "Wait...", downloaded: "0", total: "0", nwVersion: installVersion, platformName: color.cyan("Windows 64-bit") });
-            } else
-                if (type == "win32") {
-                    progress.start(100, 0, { speed: "Wait...", downloaded: "0", total: "0", nwVersion: installVersion, platformName: color.cyan("Windows 32-bit") });
-                } else
-                    if (type == "linux64") {
-                        progress.start(100, 0, { speed: "Wait...", downloaded: "0", total: "0", nwVersion: installVersion, platformName: color.yellow(" Linux 64-bit ") });
-                    } else
-                        if (type == "linux32") {
-                            progress.start(100, 0, { speed: "Wait...", downloaded: "0", total: "0", nwVersion: installVersion, platformName: color.yellow(" Linux 32-bit ") });
-                        } else
-                            if (type == "osx64") {
-                                progress.start(100, 0, { speed: "Wait...", downloaded: "0", total: "0", nwVersion: installVersion, platformName: color.magenta("MacOS X 64-bit") });
-                                console.log(color.magenta(`Downloading NW.js version: ${installVersion}\n`));
-                            }
+            progress.update(0, { speed: "Starting..." });
         });
 
         dl.start().catch(err => {
