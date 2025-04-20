@@ -1,7 +1,8 @@
 ![icon as scuffed as the program](./icon_banner_readme.png)
 
 # Fresh NW for Construct 2 (Formerly Neo NW)
-My own modern replacement for "NW.js for Construct 2", made to last far beyond 2025.
+
+My own modern replacement for the official NW.js support installer for Construct 2, made to last far beyond 2025.
 
 
 > [!NOTE]
