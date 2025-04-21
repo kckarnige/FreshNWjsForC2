@@ -79,7 +79,7 @@ https.get("https://registry.npmjs.com/nw", (res) => {
 
         // Start each download after the previous is completed
         for (var dir of checkDirs) {
-            await downloadFile(urls[dir], dir, installVersion, progressBars[dir]);
+            await downloadFile(urls[dir], dir, progressBars[dir]);
         }
 
         // When all downloads are completed, let the user know
