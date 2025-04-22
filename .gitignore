@@ -133,3 +133,4 @@ package-lock.json
 *.zip
 *.gz
 /src/NWjsForC2
+/src/config.json
