@@ -1,5 +1,6 @@
 {
     "preferedVersion": "latest",
     "deleteTempDirAfterInstall": true,
-    "localInstall": false
+    "localInstall": false,
+    "sdkBuild": false
 }

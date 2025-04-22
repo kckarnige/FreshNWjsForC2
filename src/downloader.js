@@ -52,18 +52,32 @@ https.get("https://registry.npmjs.com/nw", (res) => {
 
         // Remove directories if they already exist
         checkDirs.forEach(dir => fs.rmSync(path.join(filePath(), dir), { recursive: true, force: true }));
-
-        // URLs for different platforms
-        const urls = {
-            win64: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-win-x64.zip`,
-            win32: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-win-ia32.zip`,
-            linux64: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-linux-x64.tar.gz`,
-            linux32: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-linux-ia32.tar.gz`,
-            osx64: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-osx-x64.zip`
-        };
+        
+        // Define URLs for different platforms
+        var urls = {};
+        
+        // Set download for SDK build if specified
+        if (!config.sdkBuild) {
+            urls = {
+                win64: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-win-x64.zip`,
+                win32: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-win-ia32.zip`,
+                linux64: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-linux-x64.tar.gz`,
+                linux32: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-linux-ia32.tar.gz`,
+                osx64: `https://dl.nwjs.io/v${installVersion}/nwjs-v${installVersion}-osx-x64.zip`
+            }
+            console.log(color.magenta(`Downloading NW.js version: ${installVersion}\n`));
+        } else {
+            urls = {
+                win64: `https://dl.nwjs.io/v${installVersion}/nwjs-sdk-v${installVersion}-win-x64.zip`,
+                win32: `https://dl.nwjs.io/v${installVersion}/nwjs-sdk-v${installVersion}-win-ia32.zip`,
+                linux64: `https://dl.nwjs.io/v${installVersion}/nwjs-sdk-v${installVersion}-linux-x64.tar.gz`,
+                linux32: `https://dl.nwjs.io/v${installVersion}/nwjs-sdk-v${installVersion}-linux-ia32.tar.gz`,
+                osx64: `https://dl.nwjs.io/v${installVersion}/nwjs-sdk-v${installVersion}-osx-x64.zip`
+            }
+            console.log(color.magenta(`Downloading NW.js version: ${installVersion} (SDK Build)\n`));
+        }
 
         // Create progress bars for each download
-        console.log(color.magenta(`Downloading NW.js version: ${installVersion}\n`));
         const progressBars = {};
         for (var dir of checkDirs) {
             let label;
