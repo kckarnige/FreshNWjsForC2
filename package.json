@@ -16,7 +16,7 @@
     "deconstruct": "node src/uninstaller.js",
     "reconstruct": "pnpm deconstruct && pnpm construct",
     "lint": "pnpm eslint",
-    "openFolder": "explorer \"C:\\Program Files\\NWjsForC2\""
+    "openFolder": "explorer \"%programfiles%\\NWjsForC2\""
   },
   "dependencies": {
     "adm-zip": "^0.5.16",
