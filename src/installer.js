@@ -96,7 +96,7 @@ fs.readFile(path.join(filePath(), "installedversion.freshnw"), (err, installVers
                     console.log(color.green(`NW.js for Construct 2 installed successfully!\nEnjoy the latest version of NW.js, ${installVersion}!`));
                 }
                 if (config.localInstall) {
-                    console.log(color.yellow("The \"NWjsForC2\" folder needs to be moved to your \'Program Files\' folder to function.\n"));
+                    console.log(color.yellow("The \"NWjsForC2\" folder needs to be moved to your 'Program Files' folder to function.\n"));
                 } else console.log("")
 
                 if (config.deleteTempDirAfterInstall === true) {
@@ -106,7 +106,7 @@ fs.readFile(path.join(filePath(), "installedversion.freshnw"), (err, installVers
                     }
                 }
             } else {
-                console.log(color.red(`${(checkDirs.length - installCount)} of ${checkDirs.length} platform(s) failed to install!\n\nDisable "deleteTempDirAfterInstall" in your config.json and check if the files download correctly.\n\nMake sure to check your internet connection. If it\"s not that, try running "pnpm reconstruct".\n`));
+                console.log(color.red(`${(checkDirs.length - installCount)} of ${checkDirs.length} platform(s) failed to install!\n\nDisable "deleteTempDirAfterInstall" in your config.json and check if the files download correctly.\n\nMake sure to check your internet connection. If it's not that, try running "pnpm reconstruct".\n`));
             }
         });
 });
