@@ -29,7 +29,7 @@ My own modern replacement for the official NW.js support installer for Construct
 
 - Make sure you don't have the official NW.js support for Construct 2. If you do have it installed, uninstall it as you would any other Windows program. Theoretically, you should also be able to uninstall it using `pnpm deconstruct`, though it's not recommended.
 
-- If Construct 2 is telling you NW.js support is not installed, or Fresh NW isn't recognising any new NW.js hotfix, you can force an install without checking for updates by running either `pnpm start:force` or `pnpm construct:force`.
+- If Construct 2 is telling you NW.js support is not installed, or Fresh NW isn't recognising any new NW.js hotfix, you can force an install without checking for updates by running either `pnpm start:nocheck` or `pnpm construct:nocheck`.
 
 - You can reinstalling by running `pnpm reconstruct`. This uninstalls everything, then attempts an install from scratch.
 
