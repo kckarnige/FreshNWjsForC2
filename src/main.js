@@ -14,6 +14,7 @@ color.enabled = require("color-support").hasBasic;
 
 // ======= // Important Variables // ======= //
 
+const configPath = path.join(process.cwd(), 'config.json');
 var config;
 var filePath;
 const checkDirs = ["win64", "win32", "linux64", "linux32", "osx64"];
@@ -51,8 +52,8 @@ function startUpCheck() {
             "skipVersionCheck": false
         }
 
-        if (!fs.existsSync(path.join(path.dirname(__filename), "./config.json"))) {
-            fs.writeFile(path.join(path.dirname(__filename), "./config.json"), JSON.stringify(defaultConfig, null, 4), null, (err) => {
+        if (!fs.existsSync(path.join(process.cwd(), "./config.json"))) {
+            fs.writeFile(path.join(process.cwd(), "./config.json"), JSON.stringify(defaultConfig, null, 4), null, (err) => {
                 if (err) {
                     console.log(color.red(`An error occurred: ${err}`));
                 } else {
@@ -60,9 +61,9 @@ function startUpCheck() {
 
                     filePath = () => {
                         if (!config.localInstall) return path.join(process.env.ProgramFiles, "NWjsForC2").toString()
-                        else return path.join(__dirname, "NWjsForC2").toString()
+                        else return path.join(process.cwd(), "NWjsForC2").toString()
                     }
-                    config = require("./config.json");
+                    config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
                     resolve();
                 };
             })
@@ -71,9 +72,9 @@ function startUpCheck() {
 
             filePath = () => {
                 if (!config.localInstall) return path.join(process.env.ProgramFiles, "NWjsForC2").toString()
-                else return path.join(__dirname, "NWjsForC2").toString()
+                else return path.join(process.cwd(), "NWjsForC2").toString()
             }
-            config = require("./config.json");
+            config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
             if (config.preferedVersion === undefined ||
                 config.deleteTempDirAfterInstall === undefined ||
                 config.localInstall === undefined ||
@@ -82,8 +83,8 @@ function startUpCheck() {
             ) {
                 console.log(color.red("Config file is incomplete!"))
                 console.log(color.magenta("Regenerating config file...\n"))
-                fs.rm(path.join(path.dirname(__filename), "./config.json"), () => {
-                    fs.writeFile(path.join(path.dirname(__filename), "./config.json"), JSON.stringify(defaultConfig, null, 4), null, (err) => {
+                fs.rm(path.join(process.cwd(), "./config.json"), () => {
+                    fs.writeFile(path.join(process.cwd(), "./config.json"), JSON.stringify(defaultConfig, null, 4), null, (err) => {
                         if (err) {
                             console.log(color.red(`An error occurred: ${err}`));
                         } else {
@@ -100,8 +101,8 @@ function startUpCheck() {
 }
 
 // Check if temp folder exists before anything, and get rid of it
-if (fs.existsSync(path.join(__dirname, "temp"))) {
-    fs.rmSync(path.join(__dirname, "temp"), { recursive: true, force: true })
+if (fs.existsSync(path.join(process.cwd(), "temp"))) {
+    fs.rmSync(path.join(process.cwd(), "temp"), { recursive: true, force: true })
 }
 
 // ======= // Version/Update Check // ======= //
@@ -194,8 +195,8 @@ function downloadFiles() {
                 }
 
                 // If the 'temp' directory exists, delete it
-                if (!fs.existsSync(path.join(__dirname, "temp"))) {
-                    fs.mkdirSync(path.join(__dirname, "temp"), { recursive: true });
+                if (!fs.existsSync(path.join(process.cwd(), "temp"))) {
+                    fs.mkdirSync(path.join(process.cwd(), "temp"), { recursive: true });
                 }
 
                 // Remove directories if they already exist
@@ -265,7 +266,7 @@ function downloadFiles() {
         var completedDLs = 0;
         function downloadFile(url, type, progress) {
             return new Promise((resolve) => {
-                const dl = new DownloaderHelper(url, path.join(__dirname, "temp"));
+                const dl = new DownloaderHelper(url, path.join(process.cwd(), "temp"));
 
                 dl.on("progress", (stats) => {
                     const percentage = Math.round(stats.progress);
@@ -324,14 +325,14 @@ function installFiles() {
             const installPromises = checkDirs.map(dir => {
                 if (dir === "win64") {
                     console.log("Installing for " + color.cyan("Windows 64-bit") + "...");
-                    return extractZip(path.join(__dirname, "temp", `nwjs${yesDK}-v${installVersion}-win-x64.zip`), filePath())
+                    return extractZip(path.join(process.cwd(), "temp", `nwjs${yesDK}-v${installVersion}-win-x64.zip`), filePath())
                         .then(() => {
                             installCount++;
                             fs.renameSync(path.join(filePath(), `nwjs${yesDK}-v${installVersion}-win-x64`), path.join(filePath(), dir));
                         });
                 } else if (dir === "win32") {
                     console.log("Installing for " + color.cyan("Windows 32-bit") + "...");
-                    return extractZip(path.join(__dirname, "temp", `nwjs${yesDK}-v${installVersion}-win-ia32.zip`), filePath())
+                    return extractZip(path.join(process.cwd(), "temp", `nwjs${yesDK}-v${installVersion}-win-ia32.zip`), filePath())
                         .then(() => {
                             installCount++;
                             fs.renameSync(path.join(filePath(), `nwjs${yesDK}-v${installVersion}-win-ia32`), path.join(filePath(), dir));
@@ -339,7 +340,7 @@ function installFiles() {
                 } else if (dir === "linux64") {
                     console.log("Installing for " + color.yellow("Linux 64-bit") + "...");
                     return tar.x({
-                        file: path.join(__dirname, "temp", `nwjs${yesDK}-v${installVersion}-linux-x64.tar.gz`),
+                        file: path.join(process.cwd(), "temp", `nwjs${yesDK}-v${installVersion}-linux-x64.tar.gz`),
                         C: filePath()
                     })
                         .then(() => {
@@ -349,7 +350,7 @@ function installFiles() {
                 } else if (dir === "linux32") {
                     console.log("Installing for " + color.yellow("Linux 32-bit") + "...");
                     return tar.x({
-                        file: path.join(__dirname, "temp", `nwjs${yesDK}-v${installVersion}-linux-ia32.tar.gz`),
+                        file: path.join(process.cwd(), "temp", `nwjs${yesDK}-v${installVersion}-linux-ia32.tar.gz`),
                         C: filePath()
                     })
                         .then(() => {
@@ -358,7 +359,7 @@ function installFiles() {
                         });
                 } else if (dir === "osx64") {
                     console.log("Installing for " + color.magenta("MacOS X 64-bit") + "...");
-                    return extractZip(path.join(__dirname, "temp", `nwjs${yesDK}-v${installVersion}-osx-x64.zip`), filePath())
+                    return extractZip(path.join(process.cwd(), "temp", `nwjs${yesDK}-v${installVersion}-osx-x64.zip`), filePath())
                         .then(() => {
                             installCount++;
                             fs.renameSync(path.join(filePath(), `nwjs${yesDK}-v${installVersion}-osx-x64`, "nwjs.app"), path.join(filePath(), dir));
@@ -385,7 +386,7 @@ function installFiles() {
                     }
 
                     if (config.deleteTempDirAfterInstall === true) {
-                        const tempPath = path.join(__dirname, "temp");
+                        const tempPath = path.join(process.cwd(), "temp");
                         if (fs.existsSync(tempPath)) {
                             fs.rmSync(tempPath, { recursive: true, force: true });
                         }
