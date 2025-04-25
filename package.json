@@ -1,9 +1,9 @@
 {
   "name": "fresh-nw",
-  "version": "2.3.1",
-  "description": "",
+  "version": "2.3.2",
+  "description": "My own modern replacement for the official NW.js support installer for Construct 2.",
   "license": "MPL-2.0",
-  "author": "KiCK",
+  "author": "KiCKTheBucket",
   "type": "commonjs",
   "main": "src/main.js",
   "scripts": {

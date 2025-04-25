@@ -41,7 +41,13 @@ function extractZip(zipPath, outputFolder) {
 // ======= // Startup Check // ======= //
 
 function startUpCheck() {
+    // Check if temp folder exists before anything, and get rid of it
+    if (fs.existsSync(path.join(process.cwd(), "temp"))) {
+        console.log(color.magenta("Removing temp files..."))
+        fs.rmSync(path.join(process.cwd(), "temp"), { recursive: true, force: true })
+    }
     return new Promise((resolve) => {
+
         console.log(color.magenta("Verifying config file..."))
 
         var defaultConfig = {
@@ -99,12 +105,6 @@ function startUpCheck() {
         }
     })
 }
-
-// Check if temp folder exists before anything, and get rid of it
-if (fs.existsSync(path.join(process.cwd(), "temp"))) {
-    fs.rmSync(path.join(process.cwd(), "temp"), { recursive: true, force: true })
-}
-
 // ======= // Version/Update Check // ======= //
 
 function updateCheck() {
