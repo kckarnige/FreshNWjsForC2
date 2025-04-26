@@ -13,7 +13,19 @@ My own modern replacement for the official NW.js support installer for Construct
 >
 > **As Construct 2 only officially supports Windows, this tool will be made with that in mind above all else.** If you're by any chance using Construct 2 under [Wine](https://en.wikipedia.org/wiki/Wine_(software)), [Proton](https://en.wikipedia.org/wiki/Proton_(software)), or something of the sort, don't be surprised if Fresh NW doesn't function as intended, though I don't believe there should much issue, just make sure to configure Wine accordingly. That being said, support will NOT be provided for alternative setups, especially if a lot of jank is involved.
 
-## Usage
+## Usage (From Binary)
+
+- Download the binary file from the [releases page](https://github.com/kckarnige/FreshNWjsForC2/releases).
+
+- Place the binary file whenever you'd like, and open the directory in an elevated terminal.
+
+- Run `./FreshNW.exe` and let it do it's thing.
+
+- If you want to prevent deleting the `temp` directory after installing, or choose a specific version of NW.js to install, you can edit the `config.json` file generated after install, or look at the available flags by running with the `--help` flag.
+
+- Once Fresh NW says it's done installing, you should be able to export your Construct 2 games with a much more stable version of NW.js! (Or less stable, if you're into that.)
+
+## Usage (From Source)
 
 - Make sure you have [Node.js](https://nodejs.org) and [pnpm](https://pnpm.io) installed.
 
@@ -21,20 +33,29 @@ My own modern replacement for the official NW.js support installer for Construct
 
 - Run `pnpm i` and then either `pnpm start` or `pnpm construct` and let it do it's thing.
 
-- If you want to prevent deleting the `temp` directory after installing, or choose a specific version of NW.js to install, you can edit the `config.json` file in the `src` directory.
+- If you want to prevent deleting the `temp` directory after installing, or choose a specific version of NW.js to install, you can edit the `config.json` file in the `src` directory, or look at the available flags by running with the `--help` flag.
 
 - Once Fresh NW says it's done installing, you should be able to export your Construct 2 games with a much more stable version of NW.js! (Or less stable, if you're into that.)
-      
+
+## Building from Source
+
+- Make sure you have [Node.js](https://nodejs.org) and [pnpm](https://pnpm.io) installed.
+
+- Run `pnpm i` and give it a moment.
+
+- Run `pnpm release` and let it do it's thing.
+
+- If the install is successful, the binary should be in the `dist` folder!
+
 ## Troubleshooting
 
-- Make sure you don't have the official NW.js support for Construct 2. If you do have it installed, uninstall it as you would any other Windows program. Theoretically, you should also be able to uninstall it using `pnpm deconstruct`, though it's not recommended.
+- Make sure you don't have the official NW.js support for Construct 2. If you do have it installed, uninstall it as you would any other Windows program. Theoretically, you should also be able to uninstall it using `pnpm deconstruct`, though it's not recommended. If you're using a binary, use the `--uninstall` flag.
 
-- If Construct 2 is telling you NW.js support is not installed, or Fresh NW isn't recognising any new NW.js hotfix, you can force an install without checking for updates by running either `pnpm start:nocheck` or `pnpm construct:nocheck`.
+- If you're having issues building, make sure you placed the "ResourceHacker.exe" file in the right place and that you've installed all dependencies by running `pnpm i`. 
 
-- You can reinstalling by running `pnpm reconstruct`. This uninstalls everything, then attempts an install from scratch.
+- If Construct 2 is telling you NW.js support is not installed, or Fresh NW isn't recognising any new NW.js hotfix, you can force an install without checking for updates by running either `pnpm start` or `pnpm construct` with either the `--nocheck` or `--force` flag. The same applies if you're using the binary.
 
-- If all else fails, you can uninstall everything by running `pnpm deconstruct`.
-
+- You can reinstalling by running `pnpm reconstruct`. This uninstalls everything, then attempts an install from scratch. If you're using the binary, try uninstalling using the `--uninstall` flag, then run the binary like normal.
 
 > [!WARNING]
 >
@@ -46,7 +67,7 @@ My own modern replacement for the official NW.js support installer for Construct
 
 ## AI Politics
 
-### This was made with assistance from ChatGPT.
+### This was made with assistance from AI.
 
 (No, I'm not an AI or cryto bro. I hate crypto, AI however...)
 

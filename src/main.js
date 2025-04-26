@@ -8,7 +8,6 @@ const tar = require("tar");
 const AdmZip = require("adm-zip");
 
 
-console.clear();
 color.enabled = false;
 color.enabled = require("color-support").hasBasic;
 
@@ -399,27 +398,39 @@ function installFiles() {
 
 // ======= // Start // ======= //
 
+// Help Flag
 startUpCheck().then(() => {
-    if (process.argv.includes("--uninstall")) {
-        if (fs.existsSync(filePath())) {
-            fs.rmSync(filePath(), { recursive: true, force: true });
-            console.log(color.green("Deconstructed!"));
-            console.log(color.magenta(filePath()));
+    if (process.argv.includes("--help") || process.argv.includes("-h") || process.argv.includes("-?")) {
+        console.log(color.magenta("Flags:"))
+        console.log("   -?, -h, --help          :   Show all available flags")
+        console.log("   -f, --force, --nocheck  :   Force an install, skipping the version check")
+        console.log("   -r, --reinstall         :   Reinstall")
+        console.log("   -u, --uninstall         :   Uninstall")
+        console.log("")
+    }
+    else {
+        console.clear();
+        if (process.argv.includes("--uninstall") || process.argv.includes("-u")) {
+            if (fs.existsSync(filePath())) {
+                fs.rmSync(filePath(), { recursive: true, force: true });
+                console.log(color.green("Deconstructed!"));
+                console.log(color.magenta(filePath()));
+            } else {
+                console.log(color.red("Tried to deconstruct, but there was nothing there!"));
+                console.log(color.magenta(filePath()));
+            }
         } else {
-            console.log(color.red("Tried to deconstruct, but there was nothing there!"));
-            console.log(color.magenta(filePath()));
-        }
-    } else {
-        if (process.argv.includes("--nocheck") || process.argv.includes("--force") || config.skipVersionCheck) {
-            downloadFiles().then(() => {
-                installFiles()
-            })
-        } else {
-            updateCheck().then(() => {
+            if (process.argv.includes("--nocheck") || process.argv.includes("--force") || process.argv.includes("-f") || config.skipVersionCheck) {
                 downloadFiles().then(() => {
                     installFiles()
                 })
-            })
+            } else {
+                updateCheck().then(() => {
+                    downloadFiles().then(() => {
+                        installFiles()
+                    })
+                })
+            }
         }
     }
 })

@@ -1,6 +1,6 @@
 {
   "name": "fresh-nw",
-  "version": "2.3.2",
+  "version": "2.4.0",
   "description": "My own modern replacement for the official NW.js support installer for Construct 2.",
   "license": "MPL-2.0",
   "author": "KiCKTheBucket",
@@ -10,15 +10,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "quickStart": "pnpm i && pnpm construct",
     "start": "pnpm construct",
-    "start:force": "pnpm construct:force",
-    "start:nocheck": "pnpm construct:force",
     "construct": "node .",
-    "construct:force": "node . --nocheck",
-    "construct:nocheck": "node . --nocheck",
     "deconstruct": "node . --uninstall",
     "reconstruct": "pnpm deconstruct && pnpm construct",
     "lint": "pnpm eslint",
-    "openFolder": "explorer \"%programfiles%\\NWjsForC2\""
+    "openFolder": "explorer \"%programfiles%\\NWjsForC2\"",
+    "release": "pkg ./src/main.js --targets latest-win-x64 --output dist/FreshNW.exe"
   },
   "dependencies": {
     "adm-zip": "^0.5.16",
@@ -30,6 +27,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",
+    "@yao-pkg/pkg": "^6.4.0",
     "eslint": "^9.24.0",
     "globals": "^16.0.0"
   }

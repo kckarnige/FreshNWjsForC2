@@ -129,8 +129,12 @@ dist
 .yarn/install-state.gz
 .pnp.*
 package-lock.json
+
+# FreshNW
 *.zip
 *.gz
+*.exe
+*.ini
 /src/temp
 /src/NWjsForC2
 /src/config.json
