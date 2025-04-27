@@ -1,11 +1,13 @@
 const https = require("https");
 const fs = require("fs");
+const isElevated = require('admin-check');
 const path = require("path");
 const { DownloaderHelper } = require("node-downloader-helper");
 const cliProgress = require("cli-progress");
 const color = require("ansi-colors");
 const tar = require("tar");
 const AdmZip = require("adm-zip");
+const { execSync } = require("child_process");
 
 
 color.enabled = false;
@@ -65,8 +67,8 @@ function startUpCheck() {
                     console.log(color.green("Config file created!"))
 
                     filePath = () => {
-                        if (!config.localInstall) return path.join(process.env.ProgramFiles, "NWjsForC2").toString()
-                        else return path.join(process.cwd(), "NWjsForC2").toString()
+                        if (config.localInstall || process.argv.includes("-l") || process.argv.includes("--local")) return path.join(process.cwd(), "NWjsForC2").toString()
+                        else return path.join(process.env.ProgramFiles, "NWjsForC2").toString()
                     }
                     config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
                     resolve();
@@ -76,8 +78,8 @@ function startUpCheck() {
             console.log(color.green("Config file exists!"))
 
             filePath = () => {
-                if (!config.localInstall) return path.join(process.env.ProgramFiles, "NWjsForC2").toString()
-                else return path.join(process.cwd(), "NWjsForC2").toString()
+                if (config.localInstall || process.argv.includes("-l") || process.argv.includes("--local")) return path.join(process.cwd(), "NWjsForC2").toString()
+                else return path.join(process.env.ProgramFiles, "NWjsForC2").toString()
             }
             config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
             if (config.preferedVersion === undefined ||
@@ -104,6 +106,7 @@ function startUpCheck() {
         }
     })
 }
+
 // ======= // Version/Update Check // ======= //
 
 function updateCheck() {
@@ -377,7 +380,7 @@ function installFiles() {
                         } else {
                             console.log(color.green(`NW.js for Construct 2 installed successfully!\nEnjoy the latest version of NW.js, ${installVersion}!`));
                         }
-                        if (config.localInstall) {
+                        if (config.localInstall || process.argv.includes("-l") || process.argv.includes("--local")) {
                             console.log(color.yellow("The \"NWjsForC2\" folder needs to be moved to your 'Program Files' folder to function.\n"));
                         } else console.log("")
                     } else {
@@ -399,38 +402,67 @@ function installFiles() {
 // ======= // Start // ======= //
 
 // Help Flag
-startUpCheck().then(() => {
-    if (process.argv.includes("--help") || process.argv.includes("-h") || process.argv.includes("-?")) {
-        console.log(color.magenta("Flags:"))
-        console.log("   -?, -h, --help          :   Show all available flags")
-        console.log("   -f, --force, --nocheck  :   Force an install, skipping the version check")
-        console.log("   -r, --reinstall         :   Reinstall")
-        console.log("   -u, --uninstall         :   Uninstall")
-        console.log("")
-    }
-    else {
-        console.clear();
-        if (process.argv.includes("--uninstall") || process.argv.includes("-u")) {
-            if (fs.existsSync(filePath())) {
-                fs.rmSync(filePath(), { recursive: true, force: true });
-                console.log(color.green("Deconstructed!"));
-                console.log(color.magenta(filePath()));
+if (process.argv.includes("--help") || process.argv.includes("-h") || process.argv.includes("-?")) {
+    console.log(color.magenta("Flags:"))
+    console.log("   -?, -h, --help                  :   Show all available flags.")
+    console.log("   -f, --force, --nocheck          :   Force an install, skipping the version check.")
+    console.log("   -l, --local                     :   \"Install\" in the current directory.")
+    console.log("   -r, --reinstall, --reconstruct  :   Deletes all of FreshNW's files, then reinstalls them.")
+    console.log("   -u, --uninstall, --deconstruct  :   Completely uninstall FreshNW.")
+    console.log("")
+}
+else {
+    startUpCheck().then(() => {
+        isElevated.check().then(result => {
+            if (result || process.argv.includes("-l") || process.argv.includes("--local")) {
+
+                console.clear();
+
+                if (process.argv.includes("--deconstruct") || process.argv.includes("--uninstall") || process.argv.includes("-u")) {
+                    if (fs.existsSync(filePath())) {
+                        fs.rmSync(filePath(), { recursive: true, force: true });
+                        console.log(color.green("Deconstructed!"));
+                        console.log(color.magenta(filePath()));
+                    } else {
+                        console.log(color.red("Tried to deconstruct, but there was nothing there!"));
+                        console.log(color.magenta(filePath()));
+                    }
+                } else
+
+                    if (process.argv.includes("--reconstruct") || process.argv.includes("--reinstall") || process.argv.includes("-r")) {
+                        if (fs.existsSync(filePath())) {
+                            fs.rmSync(filePath(), { recursive: true, force: true });
+                            console.log(color.green("Deconstructed!"));
+
+                            console.log(color.magenta("Attempting reconstruction..."));
+                            downloadFiles().then(() => {
+                                installFiles()
+                            })
+                        } else {
+                            console.log(color.red("Tried to deconstruct, but there was nothing there!"));
+                            console.log(color.magenta(filePath()));
+                        }
+                    }
+
+                    else {
+                        if (process.argv.includes("--nocheck") || process.argv.includes("--force") || process.argv.includes("-f") || config.skipVersionCheck) {
+                            downloadFiles().then(() => {
+                                installFiles()
+                            })
+                        } else {
+                            updateCheck().then(() => {
+                                downloadFiles().then(() => {
+                                    installFiles()
+                                })
+                            })
+                        }
+                    }
             } else {
-                console.log(color.red("Tried to deconstruct, but there was nothing there!"));
-                console.log(color.magenta(filePath()));
+                console.clear()
+                console.log(color.red("Not running in an elevated shell!"));
+                console.log(color.red("Make sure to read the README on GitHub!\n"));
+                execSync("start https://github.com/kckarnige/FreshNWjsForC2?tab=readme-ov-file#readme")
             }
-        } else {
-            if (process.argv.includes("--nocheck") || process.argv.includes("--force") || process.argv.includes("-f") || config.skipVersionCheck) {
-                downloadFiles().then(() => {
-                    installFiles()
-                })
-            } else {
-                updateCheck().then(() => {
-                    downloadFiles().then(() => {
-                        installFiles()
-                    })
-                })
-            }
-        }
-    }
-})
+        })
+    })
+}

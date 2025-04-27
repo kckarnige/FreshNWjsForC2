@@ -7,7 +7,7 @@ My own modern replacement for the official NW.js support installer for Construct
 
 > [!NOTE]
 >
-> Due to how Construct 2 handles NW.js support, files need to be placed in a specific directory: `C:\Program Files\NWjsForC2`. This is why it is a requirement that you use an elevated terminal or else this may not function as intended, or at all. I recommend either installing something like [gsudo](https://github.com/gerardog/gsudo), or using the [new sudo command](https://learn.microsoft.com/en-us/windows/sudo/) introduced in Windows 11 24H2, if you plan to use this for the long haul. *You do not need an elevated terminal `localInstall` is enabled.*
+> Due to how Construct 2 handles NW.js support, files need to be placed in a specific directory: `C:\Program Files\NWjsForC2`. This is why it is a requirement that you use an elevated terminal or else this may not function as intended, or at all. I recommend either installing something like [gsudo](https://github.com/gerardog/gsudo), or using the [new sudo command](https://learn.microsoft.com/en-us/windows/sudo/) introduced in Windows 11 24H2, if you plan to use this for the long haul. *You do not need an elevated terminal if `localInstall` is enabled, or if you use the `--local` flag.*
 >
 > ## On running under Wine
 >
