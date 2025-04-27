@@ -8,7 +8,7 @@ color.enabled = require("color-support").hasBasic;
 var compileOptions = {
   name: "./dist/FreshNW.exe",
   input: "./src/main.js",
-  target: "windows-x64-22.15.0",
+  target: "windows-x64-23.11.0",
   ico: "./icon.ico",
   build: true,
   rc: {
