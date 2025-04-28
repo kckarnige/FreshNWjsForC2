@@ -9,7 +9,7 @@ My own modern replacement for the official NW.js support installer for Construct
 >
 > Due to how Construct 2 handles NW.js support, files need to be placed in a specific directory: `C:\Program Files\NWjsForC2`. Accessing this directory requires an elevated terminal, this is why it is a requirement. I recommend installing something like [gsudo](https://github.com/gerardog/gsudo) to make it easier on yourself, or if you're using the 24H2 release of Windows 11, the [sudo](https://learn.microsoft.com/en-us/windows/sudo/) command should be available to you right out the box. *You do not need an elevated terminal if `localInstall` is enabled, or if you use the `--local` flag.*
 >
-> ## On running under Wine
+> ## Running under Wine
 >
 > **As Construct 2 only officially supports Windows, this tool will be made with that in mind above all else.** If you're by any chance using Construct 2 under [Wine](https://en.wikipedia.org/wiki/Wine_(software)), [Proton](https://en.wikipedia.org/wiki/Proton_(software)), or something of the sort, don't be surprised if Fresh NW doesn't function as intended, though I don't believe there should much issue, just make sure to configure Wine accordingly. That being said, support will NOT be provided for alternative setups, especially if a lot of jank is involved.
 
