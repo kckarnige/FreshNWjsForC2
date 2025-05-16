@@ -39,7 +39,7 @@ My own modern replacement for the official NW.js support installer for Construct
 
 ## Building from Source
 
-- Make sure you have [Node.js](https://nodejs.org) and [pnpm](https://pnpm.io) installed.
+- Make sure you have [Node.js](https://nodejs.org), [pnpm](https://pnpm.io), [Netwide Assembler (NASM)](https://www.nasm.us/), and [Microsoft C++ build tools](https://aka.ms/vs/17/release/vs_buildtools.exe) installed.
 
 - Run `pnpm i` and give it a moment.
 
